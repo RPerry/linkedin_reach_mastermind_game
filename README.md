@@ -42,3 +42,7 @@ changeDifficultyLevel() to determine the length of the combination based on the 
 Guess has the properties guessNumber, guessCombination and guessFeedback to store the data of each guess and to easily display the history of guesses and feedback.
 
 There are 3 components. playButton is the home page and displays the game instructions and start button. The UI for gameDifficulty gathers the users chosen level of difficulty and handles the logic for creating a new Game object and starting the game timer. It passes the game and timer objects as props to gamePlay, its child component. gamePlay handles all of the game playing logic. It's UI displays the time elapsed, number of turns remaining, feedback for each guess, guess input area, and history of guesses. When the game has ended, it displays a message depending on whether the user won or lost, time spent on the game and number of tries it took to win, if the user did not use all 10.  
+
+### Game Preview
+
+<img src="https://drive.google.com/file/d/1DYBphKI65xQvHBIMYm_xeGdI1mKZglM4/view?usp=sharing" alt="Mastermind Game Home" width="400"/> <img src="https://drive.google.com/file/d/12qMXGlUo2LappXipeYZRYcYe49Npzopn/view?usp=sharing" alt="Mastermind Play Screen" width="400"/>

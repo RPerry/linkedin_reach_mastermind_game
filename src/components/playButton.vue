@@ -1,7 +1,7 @@
 <template>
 <div class="playButtonContainer">
   <section class="playButton">
-    <router-link to="/startGame">
+    <router-link to="/gameDifficulty">
       <button class="btn btn-outline-success btn-block btn-lg" id="startPlayButton">Play</button>
     </router-link>
     <!-- <a class="btn btn-outline-success btn-block btn-lg" id="startPlayButton" type="button"><router-link to="/user">Play</router-link></a> -->

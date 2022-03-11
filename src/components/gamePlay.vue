@@ -68,7 +68,7 @@ export default {
         isGuessLengthError: false,
         isGuessNumberError: false,
         timeOfGame: "",
-        triesToWin: 0
+        triesToWin: 0,
     };
   },
   methods: {

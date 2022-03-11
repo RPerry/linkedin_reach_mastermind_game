@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router';
 import playButton from './components/playButton.vue'
-import startGame from './components/startGame.vue'
+import gameDifficulty from './components/gameDifficulty.vue'
 import gamePlay from './components/gamePlay.vue'
 
 
@@ -16,8 +16,8 @@ const routes = [
 		component: playButton
 	},
   {
-    path: '/startGame',
-    component: startGame
+    path: '/gameDifficulty',
+    component: gameDifficulty
   },
   {
     path: '/gameplay',

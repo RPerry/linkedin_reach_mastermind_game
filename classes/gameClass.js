@@ -2,11 +2,13 @@ export default class Game {
     gameCombination
     gameGuessesRemaining
     gameDifficultyLevel
+    apiErrorMessage
 
     constructor() {
         this.gameCombination = null;
         this.gameGuessesRemaining = 10;
         this.gameDifficultyLevel = "4";
+        this.apiErrorMessage = "";
     }
 
     getGameCombination() {
@@ -21,17 +23,23 @@ export default class Game {
         return this.gameDifficultyLevel;
     }
 
+    getErrorMessage() {
+        return this.apiErrorMessage;
+    }
+
     newGameCombination() {
         // sending a get request to random.org api to get game combination
-        fetch(`https://www.random.org/integers/?num=${this.gameDifficultyLevel}&min=0&max=7&col=1&base=10&format=plain&rnd=new`, {
+        // integers changed to vintegers to test status code
+        fetch(`https://www.random.org/vintegers/?num=${this.gameDifficultyLevel}&min=0&max=7&col=1&base=10&format=plain&rnd=new`, {
             method: 'GET'
         })
-        // .then((response) => this.checkStatus(response))
-        .then((response) => response.text())
-        .then((data) => this.storeGameCombination(data))
-        .catch(e => {
-            console.log(e);
-        });
+        .then((response) => this.checkStatus(response))
+        // .then((response) => response.text())
+        // .then((text) => console.log(text))
+        // .catch(e => {
+        //     console.log(e);
+        // })
+        ;
     }
 
     storeGameCombination(combination) {
@@ -57,22 +65,15 @@ export default class Game {
                 break;
         }
     }
-
-
-          
-    // checkStatus(getResponse) {
-    //     if (getResponse.status != 200) {
-    //         // throw new this.statusCode(getResponse.status);
-    //         console.log(getResponse.status);
-    //     } else {
-    //         return getResponse.json()
-    //     }
-    // }
-          
-    // statusCode(code) {
-    // let message = `Sorry, there seems to be an error loading the number combination. Status code: ${code}`;
-    // console.log(message);
-    // return message;
-    // }
+    
+    // checking the status code and if it not 200, creating an error message. 
+    // If it is 200, storing the game combination
+    checkStatus(getResponse) {
+        if (getResponse.status != 200) {
+            this.apiErrorMessage = `Sorry, there seems to be an error loading the number combination. Status code: ${getResponse.status}`;
+        } else {
+            this.storeGameCombination(getResponse.text());
+        }
+    }
 
 }

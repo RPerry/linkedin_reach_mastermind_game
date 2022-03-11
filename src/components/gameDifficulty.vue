@@ -23,6 +23,9 @@
         <div class="gamePlay" v-show="showGame">
             <gamePlay :newGameProp= "newGame" :timerProp= "timer"/>
         </div>
+        <section class="apiErrorSection" v-show="showApiError">
+            <h4 class="apiError">{{this.apiError}}</h4>
+        </section>
     </div>    
 </template>
 
@@ -35,9 +38,10 @@ var { Timer } = require('easytimer.js');
 
 export default {
     //  mounted: function() {
+    //     this.gameErrorCheck()
     // },
 
-  name: 'startGame',
+  name: 'gameDifficulty',
   data() {
     return {
       showDifficultyChoice: false,
@@ -46,6 +50,8 @@ export default {
       showChooseButton: true,
       newGame: new Game(),
       timer: new Timer(),
+      showApiError: false,
+      apiError: ""
     };
   },
   methods: {
@@ -57,14 +63,32 @@ export default {
     },
 
     startGame: function() {
+        // Once the difficulty level has been chosen, a new game combination is added to the newGame object
         let choice = document.getElementById("difficultyChoice").value;
         this.newGame.changeDifficultyLevel(choice);
         this.newGame.newGameCombination();
+        
+         // once the newGameCombination function has been run and the apiErrorMessage property of the newGame has been updated 
+        // check whether there is an error message 
+        // and if there has been no error with the random.org api request, show game play area. Else, show error message
+        // setTimeout as apiErrorMessage property not updated until newGameCombination returns and I can't get an async function
+        // to await its return
 
-        // the game play section is shown once the difficulty level has been chosen
-        this.showGame = true;
-        this.showDifficultySection = false;
-        this.timer.start();
+        // within setTimeout, "this" needs to be set to a different variable in order to be called
+        let that = this;
+        setTimeout(function () {
+           if(that.newGame.getErrorMessage() == "") {
+            console.log("in no error");
+            that.showGame = true;
+            that.showDifficultySection = false;
+            that.timer.start();
+            } else {
+            console.log("in else");
+            that.apiError = that.newGame.getErrorMessage();
+            that.showDifficultySection = false;
+            that.showApiError = true;
+        }
+        }, 700);
     }
   },
   components: {

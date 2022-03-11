@@ -19,8 +19,10 @@
             </section>
             <section id="viewFeedback" v-show="showFeedback">
                 <h3>Feedback</h3>
-                <!-- how to show the current guess feedback? -->
-                <p>{{this.currentFeedback}}</p>
+                <!-- for each feedback in the currentFeedback array - display a p element with the feedback -->
+                <div v-for="feedback in this.currentFeedback" :key="feedback">
+                    <p>{{feedback}}</p>
+                </div>
             </section>
             <section id="viewHistory" v-show="showHistory">
                 <h2>Game History</h2>
@@ -68,7 +70,7 @@ export default {
         allGameGuesses: [],
         showHistory: false,
         showFeedback: false,
-        currentFeedback: "",
+        currentFeedback: [],
         showGame: true,
         showEndGame: false,
         gameOverBanner: "",
@@ -120,12 +122,20 @@ export default {
             let guessCombination = guessString.split("");
             let numberCombination = this.newGameProp.getGameCombination();
 
+            // saving the guess in string form for better end game display formatting 
             let guessCombinationString = guessCombination.join(' ');
-            let guess = new Guess(this.guessNumber, guessCombinationString, "", "test");
+            let guess = new Guess(this.guessNumber, guessCombinationString, []);
+            // removed the username property from guess, should have deleted the last parameter "test" when created a new Guess object
             let correctNumLocations = 0;
             let correctNumbers = 0;
 
             let length = this.newGameProp.getGameDifficultyLevel();
+
+            // for the version with multiple feedbacks, the indexes of the numbers in the guess that are 
+            // both the correct number and location are stored in an array so that during the check for the correct number,
+            // they won't be counted twice. That way, the feedback for correct number but not location, will not reflect numbers with
+            // the correct location
+            let correctNumLocationIndexes = [];
 
             // checking guess against the number combination and deciding feedback
             for (var i = 0; i <= (length - 1); i++) {
@@ -133,9 +143,11 @@ export default {
                 // If so, the value of correctNumLocations goes up by 1 for every correct number in the correct location/index
                 if (numberCombination[i] == guessCombination[i]) {
                     correctNumLocations += 1;
+                    correctNumLocationIndexes.push(i);
                 }
             }
-            
+            console.log("correct num and location for first feedback");
+            console.log(correctNumLocations);
 
             // When using a nested forEach loop to check if any of the number combination numbers
             // were in the guess numbers, it resulted in feedback saying the player has guessed multiple 
@@ -147,42 +159,61 @@ export default {
             // When looping through the guess combination, if a correct number appears, the quantity of that number must be higher than 0,
             // signaling that the user has not guessed it's occurance more times that it actually occurs. 
             // For each occurance, the quantity is lowered by 1
-            if(correctNumLocations == 0) {
-                let numOfNumbers = {};
-                numberCombination.forEach(cNum => {
-                    if(numOfNumbers[cNum]) {
-                        numOfNumbers[cNum] +=1;
-                    } else {
-                        numOfNumbers[cNum] = 1;
-                    }
-                });
-                
-                guessCombination.forEach(gNum => {
-                    if(numOfNumbers[gNum] > 0) {
-                        correctNumbers += 1;
-                        numOfNumbers[gNum] -=1;
-                    }
-                })
-            }
 
-            // even if multiple feedback types are applicable to a users guess only one of the three feedback should be given, 
-            // so only one feedback type is added to the Guess
-            if (correctNumLocations == 1 && correctNumLocations < length ) { 
-                guess.guessFeedback = `The player has guessed ${correctNumLocations} correct number and its correct location`;
-            } else if (correctNumLocations > 1 && correctNumLocations < length ) {
-                guess.guessFeedback = `The player has guessed ${correctNumLocations} correct numbers and their correct locations`;
-            } else if (correctNumbers == 1 ){
-                guess.guessFeedback = `The player has guessed ${correctNumbers} correct number`;
-            } else if (correctNumbers > 1 ){
-                guess.guessFeedback = `The player has guessed ${correctNumbers} correct numbers`;
-            } else if (correctNumLocations == length){
+            let numOfNumbers = {};
+
+            console.log(correctNumLocationIndexes);
+
+            // if the current index in the guess array is included in the array of indexes that were already counted for the correct
+            // number and location feedback, skip the index and do not include it in the object
+            for (var n = 0; n <= (length - 1); n++) {
+                if(!correctNumLocationIndexes.includes(n)) {
+                    console.log("index added to object");
+                    console.log(n);
+                    if(numOfNumbers[numberCombination[n]]) {
+                        numOfNumbers[numberCombination[n]] +=1;
+                    } else {
+                        numOfNumbers[numberCombination[n]] = 1;
+                    }
+                }
+            }
+            
+            for (var x = 0; x <= (length - 1); x++) {
+                if(!correctNumLocationIndexes.includes(x)) {
+                    if(numOfNumbers[guessCombination[x]] > 0) {
+                        correctNumbers += 1;
+                        numOfNumbers[guessCombination[x]] -=1;
+                    }
+                }
+            }
+            
+            console.log("correct numbers for second feedback");
+            console.log(correctNumbers);
+
+            // adding multiple feedback to guess.guessFeedback if necessary based on guess
+
+            if (correctNumLocations == length){
                 this.newGameProp.gameGuessesRemaining -= 1;
                 this.endGame("won", numberCombination);
                 // adding this return because the logic can break from this function if the user has won, 
                 // as the rest of the logic in this method is no longer necessary
                 return;
-            } else {
-                guess.guessFeedback = "The player’s guess was incorrect";
+            } 
+
+            if (correctNumLocations == 1 && correctNumLocations < length ) { 
+                guess.guessFeedback.push(`The player has guessed ${correctNumLocations} correct number and its correct location`);
+            } else if (correctNumLocations > 1 && correctNumLocations < length ) {
+                guess.guessFeedback.push(`The player has guessed ${correctNumLocations} correct numbers and their correct locations`);
+            } 
+
+            if (correctNumbers == 1 ){
+                guess.guessFeedback.push(`The player has guessed ${correctNumbers} correct number`);
+            } else if (correctNumbers > 1 ){
+                guess.guessFeedback.push(`The player has guessed ${correctNumbers} correct numbers`);
+            } 
+
+            if ((correctNumbers == 0) && (correctNumLocations == 0)){
+                guess.guessFeedback.push("The player’s guess was incorrect");
             }
 
             // the guess is added to the array of guesses for the game so that the user can view their game history
@@ -207,6 +238,7 @@ export default {
             // Feedback for guess is displayed to user
             this.currentFeedback = guess.guessFeedback;
             this.viewFeedback();
+            console.log(this.currentFeedback);
         }    
     },
 
@@ -231,12 +263,19 @@ export default {
             for (let i = 0; i < this.allGameGuesses.length; i++) {
                 const historySection = document.createElement("div");
                 historySection.className = "historyGuess";
-
-                const sectionContents = 
+                let feedbackArray = this.allGameGuesses[i].getGuessFeedback();
+                console.log('feedback array');
+                console.log(feedbackArray);
+                let sectionContents = 
                 `
                 <h4 class="guess">Guess #${this.allGameGuesses[i].getGuessNumber()}: ${this.allGameGuesses[i].getGuessCombination()}</h4>
-                <p class="feedback">Feedback: ${this.allGameGuesses[i].getGuessFeedback()}</p>
+                <p class="feedback">Feedback:</p>
+                <ul>
                 `;
+                feedbackArray.forEach(feedback => 
+                    sectionContents += `<li>${feedback}</li>`
+                )
+                sectionContents += `</ul>`;
 
                 historySection.innerHTML = sectionContents;
                 const allHistory = document.getElementsByClassName("allHistory")[0];

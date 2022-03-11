@@ -64,7 +64,7 @@ export default {
         this.newGame.changeDifficultyLevel(choice);
         this.newGame.newGameCombination();
         
-         // once the newGameCombination function has been run and the apiErrorMessage property of the newGame has been updated 
+        // once the newGameCombination function has been run and the apiErrorMessage property of the newGame has been updated 
         // check whether there is an error message 
         // and if there has been no error with the random.org api request, show game play area. Else, show error message
         // setTimeout as apiErrorMessage property not updated until newGameCombination returns and I can't get an async function

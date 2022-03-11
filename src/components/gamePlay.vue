@@ -301,11 +301,20 @@ export default {
     .guessInput { 
         grid-area: 2 / 2 / 4 / 3; 
         padding-top: 10%;
+        padding-bottom: 5%;
+        padding-left: 5%;
+        height: fit-content;
+        border-radius: 25px;
+        border: 2px solid black;
     }
 
     #viewHistory { 
         grid-area: 3 / 1 / 6 / 2; 
-        padding-top: 20%;
+        padding-top: 5%;
+        padding-left: 5%;
+        padding-bottom: 5%;
+        border-radius: 25px;
+        border: 2px solid teal;
     }
 
     #viewHistory > h2 {
@@ -315,12 +324,18 @@ export default {
     #viewFeedback { 
         grid-area: 4 / 2 / 6 / 3; 
         padding-top: 5%;
+        padding-left: 2%;
+        padding-bottom: 4%;
+        border-radius: 25px;
+        border: 2px solid green;
+        height: fit-content;
     }
 
     #viewHistoryButton { 
         grid-area: 2 / 1 / 3 / 2; 
         height: 60px;
         width: 150px;
+        height: fit-content;
     }
 
     #guessLengthError {

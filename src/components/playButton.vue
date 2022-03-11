@@ -7,10 +7,10 @@
     <!-- <a class="btn btn-outline-success btn-block btn-lg" id="startPlayButton" type="button"><router-link to="/user">Play</router-link></a> -->
   </section>
   <section class="instructions">
-    <h3>Instructions:</h3>
+    <h3>Instructions: </h3>
     <ul>
-      <li>The game will select a combination of random numbers between 0-7 based on difficulty. 4 numbers on easy, 5 on medium, 6 on hard.</li>
-      <li>You will have 10 tries to guess the combination.</li>
+      <li>The game will select a combination of random numbers between 0-7 based on difficulty. 4 numbers on easy, 5 on medium, 6 on hard.</li><br>
+      <li>You will have 10 tries to guess the combination.</li><br>
       <li>You will be given feedback after every guess.</li>
     </ul>
   </section>
@@ -36,6 +36,11 @@ a {
   margin-top: 50px;
 }
 
+#startPlayButton {
+  min-width: 100%;
+  min-height: 50%;
+}
+
 .playButtonContainer {
   display: grid; 
   grid-auto-columns: 1fr; 
@@ -57,7 +62,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 15%;
 }
 
 .instructions { 
@@ -65,6 +69,9 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 25px;
+  border: 2px solid black;
+  padding: 12px;
 }
 @media screen and (max-width: 800px) {
   /* .homeName{

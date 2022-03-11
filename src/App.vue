@@ -51,6 +51,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 25px;
+  border: 2px solid coral;
 }
 
 .body {

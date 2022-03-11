@@ -90,19 +90,28 @@ export default {
     font-family: 'M PLUS 2', sans-serif;
     font-family: 'Montserrat', sans-serif;
     font-family: 'Shippori Antique', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #showDifficultyButton {
     /* grid-area: 2 / 2 / 4 / 3; */
     /* padding-left: 25%; */
+    min-width: 60%;
+    min-height: 100%;
 }
 
 .difficultyDropdown { 
     grid-area: 3 / 2 / 4 / 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding-top: 10%;
+    min-width: 60%;
+    min-height: 100%;
+}
+
+#startGame {
+    min-width: 100%;
+    min-height: 100%;
 }
 
 /* .gamePlay { 

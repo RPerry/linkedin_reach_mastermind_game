@@ -8,7 +8,7 @@
             <section class="guessInput">
                 <form name="guessForm" id="guessForm" @submit.prevent>
                             <div id=section1>
-                                    <label for="guess">Enter your guess (4 numbers between 0-7): </label>
+                                    <label for="guess">Enter your guess ({{this.newGameProp.getGameDifficultyLevel()}} numbers between 0-7): </label>
                                     <!-- type=number ensures that the user input will only be numerical -->
                                     <input id="guess" type="number" name="guess" required>
                             </div> 
@@ -42,7 +42,7 @@ import Guess from "/classes/guessClass.js";
 export default {
     props: ['newGameProp', 'timerProp'],
     created() {
-        this.newGameProp.newGameCombination();
+        // this.newGameProp.newGameCombination();
     },
 
     mounted() {
@@ -50,9 +50,7 @@ export default {
 
         timer.addEventListener('secondsUpdated', function () {
             let timeDisplay = document.getElementById("timer");
-            // console.log(this.timerProp.getTimeValues().toString());
             timeDisplay.innerHTML= timer.getTimeValues().toString();
-            // ('#timer').html(this.timerProp.getTimeValues().toString());
         });
     },
 
@@ -81,9 +79,11 @@ export default {
 
         let guessString = document.getElementById("guess").value;
 
-        // checking if the guess input value is 4 numbers. If it is not, an error message will be shown
-        if (guessString.length != 4) {
-            guessLengthError.textContent = "Guess must be 4 numbers";
+        // checking if the guess input value is the correct length based on difficulty level.
+        //  If it is not, an error message will be shown
+        let correctLength = this.newGameProp.getGameDifficultyLevel();
+        if (guessString.length != correctLength) {
+            guessLengthError.textContent = `Guess must be ${correctLength} numbers`;
             this.isGuessLengthError = true;
         } else {
             guessLengthError.textContent = "";
@@ -112,8 +112,10 @@ export default {
             let correctNumLocations = 0;
             let correctNumbers = 0;
 
+            let length = this.newGameProp.getGameDifficultyLevel();
+
             // checking guess against the number combination and deciding feedback
-            for (var i = 0; i <= 3; i++) {
+            for (var i = 0; i <= (length - 1); i++) {
                 // checking  if number and location is correct
                 // If so, the value of correctNumLocations goes up by 1 for every correct number in the correct location/index
                 if (numberCombination[i] == guessCombination[i]) {
@@ -152,11 +154,11 @@ export default {
 
             // even if multiple feedback types are applicable to a users guess only one of the three feedback should be given, 
             // so only one feedback type is added to the Guess
-            if (correctNumLocations > 0 && correctNumLocations < 4 ) {
+            if (correctNumLocations > 0 && correctNumLocations < length ) {
                 guess.guessFeedback = `The player has guessed ${correctNumLocations} correct numbers and its correct location`;
             } else if (correctNumbers > 0 ){
                 guess.guessFeedback = `The player has guessed ${correctNumbers} correct numbers`;
-            } else if (correctNumLocations == 4){
+            } else if (correctNumLocations == length){
                 this.newGameProp.gameGuessesRemaining -= 1;
                 this.endGame("won", numberCombination);
                 // adding this return because the logic can break from this function if the user has won, 

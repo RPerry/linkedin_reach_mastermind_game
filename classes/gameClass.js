@@ -1,10 +1,12 @@
 export default class Game {
     gameCombination
     gameGuessesRemaining
+    gameDifficultyLevel
 
     constructor() {
         this.gameCombination = null;
         this.gameGuessesRemaining = 10;
+        this.gameDifficultyLevel = "4";
     }
 
     getGameCombination() {
@@ -15,9 +17,13 @@ export default class Game {
         return this.gameGuessesRemaining;
     }
 
+    getGameDifficultyLevel() {
+        return this.gameDifficultyLevel;
+    }
+
     newGameCombination() {
         // sending a get request to random.org api to get game combination
-        fetch("https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new", {
+        fetch(`https://www.random.org/integers/?num=${this.gameDifficultyLevel}&min=0&max=7&col=1&base=10&format=plain&rnd=new`, {
             method: 'GET'
         })
         // .then((response) => this.checkStatus(response))
@@ -36,6 +42,20 @@ export default class Game {
         numArray.pop();
         this.gameCombination = numArray;
         console.log(this.gameCombination);
+    }
+
+    changeDifficultyLevel(level) {
+        switch(level) {
+            case "easy":
+                this.gameDifficultyLevel = "4";
+                break;
+            case "medium":
+                this.gameDifficultyLevel = "5";
+                break;
+            case "hard":
+                this.gameDifficultyLevel = "6"
+                break;
+        }
     }
 
 

@@ -4,6 +4,7 @@
         <div class="playArea" v-show="showGame">
             <section class="guessesRemaining">Guesses Remaining: {{newGameProp.gameGuessesRemaining}}</section>
             <button id="viewHistoryButton" v-on:click="this.viewHistory">View History</button>
+            <div id="timer">00:00:00</div>
             <section class="guessInput">
                 <form name="guessForm" id="guessForm" @submit.prevent>
                             <div id=section1>
@@ -28,6 +29,8 @@
         </div>
         <div class="gameEnd" v-show="showEndGame">
             <h2>{{this.gameOverBanner}}</h2>
+            <h4>{{this.timeOfGame}}</h4>
+            <p>{{this.triesToWin}}</p>
             <button type="button"><router-link to="/">Play Again</router-link></button>
         </div>
     </div>
@@ -37,15 +40,20 @@
 import Guess from "/classes/guessClass.js";
 
 export default {
-    props: ['newGameProp'],
+    props: ['newGameProp', 'timerProp'],
     created() {
         this.newGameProp.newGameCombination();
     },
 
     mounted() {
-        if(this.newGameProp.gameGuessesRemaining == 0) {
-            this.endGame();
-        }
+        let timer = this.timerProp;
+
+        timer.addEventListener('secondsUpdated', function () {
+            let timeDisplay = document.getElementById("timer");
+            // console.log(this.timerProp.getTimeValues().toString());
+            timeDisplay.innerHTML= timer.getTimeValues().toString();
+            // ('#timer').html(this.timerProp.getTimeValues().toString());
+        });
     },
 
   name: 'gamePlay',
@@ -60,12 +68,14 @@ export default {
         showEndGame: false,
         gameOverBanner: "",
         isGuessLengthError: false,
-        isGuessNumberError: false
+        isGuessNumberError: false,
+        timeOfGame: "",
+        triesToWin: 0
     };
   },
   methods: {
     guessSubmit: function() {
-
+        console.log(this.timerProp.getTimeValues().toString());
         const guessLengthError = document.getElementById("guessLengthError")
         const guessNumberError = document.getElementById("guessNumberError")
 
@@ -147,6 +157,7 @@ export default {
             } else if (correctNumbers > 0 ){
                 guess.guessFeedback = `The player has guessed ${correctNumbers} correct numbers`;
             } else if (correctNumLocations == 4){
+                this.newGameProp.gameGuessesRemaining -= 1;
                 this.endGame("won", numberCombination);
                 // adding this return because the logic can break from this function if the user has won, 
                 // as the rest of the logic in this method is no longer necessary
@@ -231,11 +242,19 @@ export default {
     // ends the game by removing the guess section in the html and displaying a header based on whether the user won or lost
     // and making the 'play again' button available
     endGame: function(endType, combination) {
+
+        // gets "cannot read property of undefined" error when using the timer prop directly. Works when saved to a variable 
+        let timer = this.timerProp;
+        let timeToEnd = timer.getTimeValues().toString();
+        timer.stop();
         if(endType == "won") {
             this.gameOverBanner = `Congratulations! You have guessed the correct combination of ${combination}`;
-            // <p>it took you ${10-gameGuessesRemaining} tries.</p>
+            this.timeOfGame = `It look you ${timeToEnd} to win the game!`;
+            this.triesToWin = `It took you ${10 - this.newGameProp.gameGuessesRemaining} tries.`
         } else {
             this.gameOverBanner = `You have run out of guesses. The correct combination was ${combination}`;
+            this.timeOfGame = `You played the game for ${timeToEnd}`;
+            this.triesToWin = "";
         }
         this.showGame = false;
         this.showEndGame = true;

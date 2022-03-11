@@ -21,7 +21,7 @@
                 </div> --> 
         </div>
         <div class="gamePlay" v-show="showGame">
-            <gamePlay :newGameProp= "newGame" />
+            <gamePlay :newGameProp= "newGame" :timerProp= "timer"/>
         </div>
     </div>    
 </template>
@@ -30,6 +30,9 @@
 import User from "/classes/userClass.js";
 import Game from "/classes/gameClass.js";
 import gamePlay from "./gamePlay.vue";
+// using EasyTimer.js library to time the length of the game
+var { Timer } = require('easytimer.js');
+
 
 export default {
      mounted: function() {
@@ -41,7 +44,8 @@ export default {
       showNewUser: false,
       showGame: false,
       showUserSection: true,
-      newGame: new Game()
+      newGame: new Game(),
+      timer: new Timer(),
     };
   },
   methods: {
@@ -59,6 +63,7 @@ export default {
         // on submission of the username form, the game play section is shown
         this.showGame = true;
         this.showUserSection = false;
+        this.timer.start();
     }
   },
   components: {

@@ -1,18 +1,10 @@
 export default class Game {
-    gameNumber
     gameCombination
     gameGuessesRemaining
-    gameUsername
 
-    constructor(gaNumber, gaUsername) {
-        this.gameNumber = gaNumber;
+    constructor() {
         this.gameCombination = null;
         this.gameGuessesRemaining = 10;
-        this.gameUsername = gaUsername;
-    }
-
-    getGameNumber() {
-        return this.gameNumber;
     }
 
     getGameCombination() {
@@ -21,10 +13,6 @@ export default class Game {
 
     getGameGuessesRemaining() {
         return this.gameGuessesRemaining;
-    }
-
-    getGameUsername() {
-        return this.gameUsername;
     }
 
     newGameCombination() {
@@ -64,34 +52,5 @@ export default class Game {
         //     console.log(message);
         //     return message;
         //   },
-        
-          // iterating through JSON  object and creating a div element for each trivia question and adding it the DOM
-        //   addQuestion: function addQuestionToPage(data) {
-        
-        //     for (let i= 0; i<= data.results.length; i++) {
-        //       const questionSection = document.createElement("div");
-        //       questionSection.className = "questionItem";
-              
-        //       let triviaInfo = {};
-        
-        //       for (const [key, value] of Object.entries(data.results[i])) {
-        //         triviaInfo[key] = value;
-        //       }
-        
-        //       const sectionContents = 
-        //       `
-        //       <h3 class="category">${triviaInfo.category}</h3>
-        //       <p class="question">${triviaInfo.question}</p>
-        //       `;
-        
-        //       questionSection.innerHTML = sectionContents;
-        //       const allTrivia = document.getElementsByClassName("allTriviaQ")[0];
-        //       allTrivia.appendChild(questionSection);
-        //       this.answers.push(triviaInfo.correct_answer);
-        //       let num = i + 1
-        //       this.answerString +="     " + num + ". " + triviaInfo.correct_answer
-        //     }
-        //   }
-    // }
 
 }

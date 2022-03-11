@@ -33,8 +33,6 @@ import gamePlay from "./gamePlay.vue";
 
 export default {
      mounted: function() {
-        // let testGame = new Game(1, "", 10, "test");
-        // testGame.newGameCombination();
     },
 
   name: 'user',
@@ -43,7 +41,7 @@ export default {
       showNewUser: false,
       showGame: false,
       showUserSection: true,
-      newGame: new Game(1, "test")
+      newGame: new Game()
     };
   },
   methods: {

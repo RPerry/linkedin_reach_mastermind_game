@@ -204,9 +204,12 @@ export default {
 
     viewFeedback: function() {
         this.showFeedback = true;
+
+        // after guess feedback is displayed, updating the history array to include the recently submitted guess
+        this.updateHistory()
     },
 
-    viewHistory: function() {
+    updateHistory: function() {
         // removing duplicate elements in case the view history button clicked multiple times
         const history = document.querySelectorAll('.historyGuess');
         history.forEach(elem => {
@@ -240,6 +243,11 @@ export default {
             const allHistory = document.getElementsByClassName("allHistory")[0];
             allHistory.appendChild(historySection);
         }
+    },
+
+    viewHistory: function() {
+        // to populate the history section if no guesses have been submitted yet
+        this.updateHistory();
 
         this.showHistory = !this.showHistory;
         // changes the button text depending on whether the history is currently being displayed

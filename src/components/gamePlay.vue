@@ -5,18 +5,63 @@
             <h3 class="guessesRemaining">Guesses Remaining: {{newGameProp.gameGuessesRemaining}}</h3>
             <button id="viewHistoryButton" class="btn btn-secondary" v-on:click="this.viewHistory">View History</button>
             <h3 id="timer">00:00:00</h3>
-            <section class="guessInput">
+            <!-- <section class="guessInput">
                 <form name="guessForm" id="guessForm" @submit.prevent>
                             <div id=section1>
                                     <label for="guess">Enter your guess ({{this.newGameProp.getGameDifficultyLevel()}} numbers between 0-7): </label>
-                                    <!-- type=number ensures that the user input will only be numerical -->
-                                    <input id="guess" type="number" name="guess">
+                                    <!-type=number ensures that the user input will only be numerical -->
+                                    <!-- <input id="guess" type="number" name="guess">
                             </div> 
                             <br><span id="guessLengthError"></span>
                             <span id="guessNumberError"></span><br>
                             <button id="guessSubmit" class="btn btn-primary" v-on:click="this.guessSubmit">Guess</button>
                 </form>
-            </section>
+            </section> --> 
+            <section class="guessInput">
+                <form name="guessForm" id="guessForm" @submit.prevent>
+                    <select id="0">
+                            <option value="0">Yellow</option>
+                            <option value="1">Red</option>
+                            <option value="2">Grey</option>
+                            <option value="3">Blue</option>
+                            <option value="4">Orange</option>
+                            <option value="5">White</option>
+                            <option value="6">Purple</option>
+                            <option value="7">Green</option>
+                    </select>
+                    <select id="1">
+                           <option value="0">Yellow</option>
+                            <option value="1">Red</option>
+                            <option value="2">Grey</option>
+                            <option value="3">Blue</option>
+                            <option value="4">Orange</option>
+                            <option value="5">White</option>
+                            <option value="6">Purple</option>
+                            <option value="7">Green</option>
+                    </select>
+                     <select id="2">
+                            <option value="0">Yellow</option>
+                            <option value="1">Red</option>
+                            <option value="2">Grey</option>
+                            <option value="3">Blue</option>
+                            <option value="4">Orange</option>
+                            <option value="5">White</option>
+                            <option value="6">Purple</option>
+                            <option value="7">Green</option>
+                    </select>
+                    <select id="3">
+                            <option value="0">Yellow</option>
+                            <option value="1">Red</option>
+                            <option value="2">Grey</option>
+                            <option value="3">Blue</option>
+                            <option value="4">Orange</option>
+                            <option value="5">White</option>
+                            <option value="6">Purple</option>
+                            <option value="7">Green</option>
+                    </select>
+                    <button id="guessSubmit" class="btn btn-primary" v-on:click="this.guessSubmit">Guess</button>
+                </form>  
+            </section>  
             <section id="viewFeedback" v-show="showFeedback">
                 <h3>Feedback</h3>
                 <!-- for each feedback in the currentFeedback array - display a p element with the feedback -->
@@ -78,52 +123,61 @@ export default {
         isGuessNumberError: false,
         timeOfGame: "",
         triesToWin: 0,
+        currentColorArray: []
     };
   },
   methods: {
     guessSubmit: function() {
-        const guessLengthError = document.getElementById("guessLengthError")
-        const guessNumberError = document.getElementById("guessNumberError")
+        // const guessLengthError = document.getElementById("guessLengthError")
+        // const guessNumberError = document.getElementById("guessNumberError")
 
-        let guessString = document.getElementById("guess").value;
+        // let guessString = document.getElementById("guess").value;
+        let index0 = document.getElementById("0").value;
+        let index1 = document.getElementById("1").value;
+        let index2 = document.getElementById("2").value;
+        let index3 = document.getElementById("3").value;
+        let numArray = [index0, index1, index2, index3];
+
+        this.currentColorArray = this.newGameProp.numberColorConversion(numArray);
+        console.log(this.currentColorArray);
 
         // checking if the guess input value is the correct length based on difficulty level.
         //  If it is not, an error message will be shown
-        let correctLength = this.newGameProp.getGameDifficultyLevel();
-        if (guessString.length != correctLength) {
-            guessLengthError.textContent = `Guess must be ${correctLength} numbers`;
-            this.isGuessLengthError = true;
-        } else {
-            guessLengthError.textContent = "";
-            this.isGuessLengthError = false;
-        }
+        // let correctLength = this.newGameProp.getGameDifficultyLevel();
+        // if (guessString.length != correctLength) {
+        //     guessLengthError.textContent = `Guess must be ${correctLength} numbers`;
+        //     this.isGuessLengthError = true;
+        // } else {
+        //     guessLengthError.textContent = "";
+        //     this.isGuessLengthError = false;
+        // }
         
         // checking if all of numbers in the guess input are within the accepted range.
         //  If not, an error message will be shown
-        let guessArray = guessString.split("");
-        let above7 = 0;
-        guessArray.forEach(int => {
-            if(int > 7) {
-                above7 += 1;
-            }
+        // let guessArray = guessString.split("");
+        // let above7 = false;
+        // guessArray.forEach(int => {
+        //     if(int > 7) {
+        //         above7 = true;
+        //     }
+        // })
 
-            if(above7 == 0) {
-                guessNumberError.textContent = "";
-                this.isGuessNumberError = false;
-            } else {
-                guessNumberError.textContent = "Guess must use numbers between 0-7";
-                this.isGuessNumberError = true;
-            }
-        })
+        // if(!above7) {
+        //     guessNumberError.textContent = "";
+        //     this.isGuessNumberError = false;
+        // } else {
+        //     guessNumberError.textContent = "Guess must use numbers between 0-7";
+        //     this.isGuessNumberError = true;
+        // }
 
         // once there are no errors in the input, the guess can be compared to the number combination
-        if(!this.isGuessLengthError && !this.isGuessNumberError) {
+        // if(!this.isGuessLengthError && !this.isGuessNumberError) {
 
-            let guessCombination = guessString.split("");
+            // let guessCombination = numArray.split("");
             let numberCombination = this.newGameProp.getGameCombination();
 
             // saving the guess in string form for better end game display formatting 
-            let guessCombinationString = guessCombination.join(' ');
+            let guessCombinationString = numArray.join(' ');
             let guess = new Guess(this.guessNumber, guessCombinationString, []);
             // removed the username property from guess, should have deleted the last parameter "test" when created a new Guess object
             let correctNumLocations = 0;
@@ -141,7 +195,7 @@ export default {
             for (var i = 0; i <= (length - 1); i++) {
                 // checking  if number and location is correct
                 // If so, the value of correctNumLocations goes up by 1 for every correct number in the correct location/index
-                if (numberCombination[i] == guessCombination[i]) {
+                if (numberCombination[i] == numArray[i]) {
                     correctNumLocations += 1;
                     correctNumLocationIndexes.push(i);
                 }
@@ -175,9 +229,9 @@ export default {
             
             for (var x = 0; x <= (length - 1); x++) {
                 if(!correctNumLocationIndexes.includes(x)) {
-                    if(numOfNumbers[guessCombination[x]] > 0) {
+                    if(numOfNumbers[numArray[x]] > 0) {
                         correctNumbers += 1;
-                        numOfNumbers[guessCombination[x]] -=1;
+                        numOfNumbers[numArray[x]] -=1;
                     }
                 }
             }
@@ -186,7 +240,7 @@ export default {
 
             if (correctNumLocations == length){
                 this.newGameProp.gameGuessesRemaining -= 1;
-                this.endGame("won", numberCombination);
+                this.endGame("won", this.currentColorArray);
                 // adding this return because the logic can break from this function if the user has won, 
                 // as the rest of the logic in this method is no longer necessary
                 return;
@@ -219,18 +273,19 @@ export default {
             correctNumbers = 0;
 
             // clearing guess input field
-            document.getElementById("guess").value = "";
+            // document.getElementById("guess").value = "";
 
             // if gameGuessesRemaining has reached 0, the user has used all 10 of their guesses
             // and the game is now over
             if(this.newGameProp.gameGuessesRemaining == 0) {
-                this.endGame("loss", numberCombination);
+                this.endGame("loss", this.currentColorArray);
             }
 
             // Feedback for guess is displayed to user
             this.currentFeedback = guess.guessFeedback;
             this.viewFeedback();
-        }    
+            console.log(this.showFeedback);
+        // }    
     },
 
     viewFeedback: function() {
@@ -258,7 +313,7 @@ export default {
               
                 let sectionContents = 
                 `
-                <h4 class="guess">Guess #${this.allGameGuesses[i].getGuessNumber()}: ${this.allGameGuesses[i].getGuessCombination()}</h4>
+                <h4 class="guess">Guess #${this.allGameGuesses[i].getGuessNumber()}: ${this.currentColorArray}</h4>
                 <p class="feedback">Feedback:</p>
                 <ul>
                 `;

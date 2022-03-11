@@ -80,6 +80,42 @@ export default class Game {
         }
     }
 
+    numberColorConversion(numberArray) {
+        let colorArray = [];
+
+        numberArray.forEach(num => {
+            switch(num) {
+                case 0:
+                    colorArray.push("yellow");
+                    break;
+                case 1:
+                    colorArray.push("red");
+                    break;
+                case 2:
+                    colorArray.push("grey");
+                    break;
+                case 3:
+                    colorArray.push("blue");
+                    break;
+                case 4:
+                    colorArray.push("orange");
+                    break;
+                case 5:
+                    colorArray.push("white");
+                    break;
+                case 6:
+                    colorArray.push("purple");
+                    break;
+                case 7:
+                    colorArray.push("green");
+                    break;
+            }
+        });
+
+        return colorArray;
+
+    }
+
    
 
 }

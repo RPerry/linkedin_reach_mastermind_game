@@ -16,10 +16,11 @@ export default class Game {
     }
 
     newGameCombination() {
+        // sending a get request to random.org api to get game combination
         fetch("https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new", {
             method: 'GET'
         })
-        // .then((response) => checkStatus(response))
+        // .then((response) => this.checkStatus(response))
         .then((response) => response.text())
         .then((data) => this.storeGameCombination(data))
         .catch(e => {
@@ -39,18 +40,19 @@ export default class Game {
 
 
           
-        //   checkStatus(getResponse) {
-        //     if (getResponse.status != 200) {
-        //         throw new this.statusCode(getResponse.status);
-        //     } else {
-        //         return getResponse.json()
-        //     }
-        //   },
+    // checkStatus(getResponse) {
+    //     if (getResponse.status != 200) {
+    //         // throw new this.statusCode(getResponse.status);
+    //         console.log(getResponse.status);
+    //     } else {
+    //         return getResponse.json()
+    //     }
+    // }
           
-        //   statusCode: function statusCodeException(code) {
-        //     let message = `Sorry, there seems to be an error loading the number combination. Status code: ${code}`;
-        //     console.log(message);
-        //     return message;
-        //   },
+    // statusCode(code) {
+    // let message = `Sorry, there seems to be an error loading the number combination. Status code: ${code}`;
+    // console.log(message);
+    // return message;
+    // }
 
 }

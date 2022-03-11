@@ -81,18 +81,34 @@ export default {
         }
         
 
-        // FIX!!!!!! - if there is a correct number multiple times in a guess, 
-        // it results in feedback saying the player has guessed multiple  correct numbers. Rather than 1
+        // When using a nested forEach loop to check if any of the number combination numbers
+        // were in the guess numbers, it resulted in feedback saying the player has guessed multiple 
+        // correct numbers when only guessing one correct number.
+        // For example, if the correct combination is 3456, and the user guesses 3321, the feedback will say 2 correct numbers 
+        // rather than 1 due to the user guessing two 3s.
+        // To fix this, every unique number in the correct combination is a key in the numOfNumbers object and 
+        // the quantity of that number is the value
+        // When looping through the guess combination, if a correct number appears, the quantity of that number must be higher than 0,
+        // signaling that the user has not guessed it's occurance more times that it actually occurs. 
+        // For each occurance, the quantity is lowered by 1
         if(correctNumLocations == 0) {
             // checking if any  of the guess numbers match with any of the number combination numbers
             // If so, the value of correctNumbers goes up by 1 for every correct number in any location/index
+            let numOfNumbers = {};
              numberCombination.forEach(cNum => {
-                guessCombination.forEach(gNum => {
-                    if(cNum == gNum) {
-                        correctNumbers += 1;
-                    }
-                })
+                 if(numOfNumbers[cNum]) {
+                     numOfNumbers[cNum] +=1;
+                 } else {
+                     numOfNumbers[cNum] = 1;
+                 }
             });
+            
+            guessCombination.forEach(gNum => {
+                if(numOfNumbers[gNum] > 0) {
+                    correctNumbers += 1;
+                    numOfNumbers[gNum] -=1;
+                }
+            })
         }
 
         // feedback is added to the Guess

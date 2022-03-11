@@ -28,12 +28,20 @@
             </section>
         </div>
         <div class="gameEnd" v-show="showEndGame">
-            <h2>{{this.gameOverBanner}}</h2><br>
-            <h4>{{this.timeOfGame}}</h4><br>
-            <h5>{{this.triesToWin}}</h5><br>
-            <router-link to="/">
-                <button type="button" class="btn btn-outline-success" id="playAgainButton">Play Again</button>
-            </router-link>
+            <div id="bannerDiv">
+                <h2>{{this.gameOverBanner}}</h2><br>
+            </div>
+            <div id="endTimeDiv">
+                <h4>{{this.timeOfGame}}</h4><br>
+            </div>
+            <div id="triesDiv">
+                <h5>{{this.triesToWin}}</h5><br>
+            </div>
+            <div id="againButtonDiv">
+                <router-link to="/">
+                    <button type="button" class="btn btn-outline-success" id="playAgainButton">Play Again</button>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -91,7 +99,6 @@ export default {
         // checking if all of numbers in the guess input are within the accepted range.
         //  If not, an error message will be shown
         let guessArray = guessString.split("");
-        console.log(guessArray);
         let above7 = 0;
         guessArray.forEach(int => {
             if(int > 7) {
@@ -112,11 +119,9 @@ export default {
 
             let guessCombination = guessString.split("");
             let numberCombination = this.newGameProp.getGameCombination();
-            console.log(this.newGameProp.getGameCombination());
 
-            console.log('number combo');
-            console.log(numberCombination);
-            let guess = new Guess(this.guessNumber, guessCombination, "", "test");
+            let guessCombinationString = guessCombination.join(' ');
+            let guess = new Guess(this.guessNumber, guessCombinationString, "", "test");
             let correctNumLocations = 0;
             let correctNumbers = 0;
 
@@ -270,7 +275,7 @@ export default {
         let timeToEnd = timer.getTimeValues().toString();
         timer.stop();
         if(endType == "won") {
-            this.gameOverBanner = `Congratulations! You have guessed the correct combination of ${combination}`;
+            this.gameOverBanner = `Congratulations! You have guessed the correct combination of ${combination.join(' ')}`;
             this.timeOfGame = `It look you ${timeToEnd} to win the game!`;
             const triesToWin = 10 - this.newGameProp.gameGuessesRemaining;
             if(triesToWin == 1) {
@@ -279,7 +284,7 @@ export default {
                 this.triesToWin = `It took you ${triesToWin} tries.`;
             }
         } else {
-            this.gameOverBanner = `You have run out of guesses. The correct combination was ${combination}`;
+            this.gameOverBanner = `You have run out of guesses. The correct combination was ${combination.join(' ')}`;
             this.timeOfGame = `You played the game for ${timeToEnd}`;
             this.triesToWin = "";
         }
@@ -385,14 +390,36 @@ export default {
     }
 
     #playAgainButton {
-        height: 60px;
-        width: 50%;
+        height: 100px;
+        width: 200px;
     }
 
-    /* router-link {
-        text-decoration: none;
-        color: white;
-    } */
+    #againButtonDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 100px;
+    }
+
+    #endTimeDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    #triesDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #bannerDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
 
     label {
         font-weight: bold;

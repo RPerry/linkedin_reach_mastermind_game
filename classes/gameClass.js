@@ -49,6 +49,9 @@ export default class Game {
             // so I am removing it with .pop()
             numArray.pop();
             this.gameCombination = numArray;
+
+            // logging the game combination to the console for interviewer testing
+            console.log("logging the game combination to the console for interviewer testing");
             console.log(this.gameCombination);
         }
     }

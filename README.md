@@ -1,4 +1,4 @@
-# Linkedin Reach Code Challege: Mastermind Game
+# LinkedIn Reach Code Challenge: Mastermind Game
 ### Game Instructions:
 - The game will select a combination of random numbers between 0-7 based on the users choice of game difficulty. 4 numbers on easy, 5 on medium, 6 on hard.
 

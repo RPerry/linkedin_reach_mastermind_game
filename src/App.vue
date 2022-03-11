@@ -3,7 +3,8 @@
     <div class="container" id="app">
         <div class="header">
             <header>
-                <router-link to="/"><h1>Mastermind Game</h1></router-link>
+                <a href="/"><h1>Mastermind Game</h1></a>
+                <!-- <router-link to="/"><h1>Mastermind Game</h1></router-link> -->
                 <h4>By Riyo Perry</h4>
             </header>
         </div>

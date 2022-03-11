@@ -21,8 +21,6 @@
     - vue-router
 - To compile and view the game in your browser, run ``` npm run serve ``` and view http://localhost:8080/ in your browser
 
-**The game has also been deployed to Github Pages and can be viewed and played at ______**
-
 ### Game Details:
 
 This game is built with Vue, Javascript and HTML/CSS/CSS Grid.

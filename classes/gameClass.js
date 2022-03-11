@@ -32,9 +32,6 @@ export default class Game {
         fetch(`https://www.random.org/integers/?num=${this.gameDifficultyLevel}&min=0&max=7&col=1&base=10&format=plain&rnd=new`, {
             method: 'GET'
         })
-        // .then((response) => this.checkStatus(response))
-        // .then((response) => this.checkStatus(response.text(), response.status))
-
         .then((response) => this.checkStatus(response))
         .then((data) => this.storeGameCombination(data))
         // .catch(e => {
@@ -76,8 +73,6 @@ export default class Game {
         if (getResponse.status != 200) {
             this.apiErrorMessage = `Sorry, there seems to be an error loading the number combination. Status code: ${getResponse.status}`;
         } else {
-            // console.log(responseText);
-            // this.storeGameCombination(responseText);
             return getResponse.text()
         }
     }

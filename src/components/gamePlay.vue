@@ -28,10 +28,12 @@
             </section>
         </div>
         <div class="gameEnd" v-show="showEndGame">
-            <h2>{{this.gameOverBanner}}</h2>
-            <h4>{{this.timeOfGame}}</h4>
-            <p>{{this.triesToWin}}</p>
-            <button type="button" class="btn btn-outline-primary" id="playAgainButton"><router-link to="/">Play Again</router-link></button>
+            <h2>{{this.gameOverBanner}}</h2><br>
+            <h4>{{this.timeOfGame}}</h4><br>
+            <h5>{{this.triesToWin}}</h5><br>
+            <router-link to="/">
+                <button type="button" class="btn btn-outline-success" id="playAgainButton">Play Again</button>
+            </router-link>
         </div>
     </div>
 </template>
@@ -41,9 +43,6 @@ import Guess from "/classes/guessClass.js";
 
 export default {
     props: ['newGameProp', 'timerProp'],
-    created() {
-        // this.newGameProp.newGameCombination();
-    },
 
     mounted() {
         let timer = this.timerProp;
@@ -89,19 +88,23 @@ export default {
             this.isGuessLengthError = false;
         }
         
-        // checking if the guess input value is within the accepted range.
-        //  If it is not, an error message will be shown
-        console.log(guessString);
+        // checking if all of numbers in the guess input are within the accepted range.
+        //  If not, an error message will be shown
         let guessArray = guessString.split("");
         console.log(guessArray);
+        let above7 = 0;
         guessArray.forEach(int => {
             if(int > 7) {
+                above7 += 1;
+            }
+
+            if(above7 == 0) {
+                guessNumberError.textContent = "";
+                this.isGuessNumberError = false;
+            } else {
                 guessNumberError.textContent = "Guess must use numbers between 0-7";
                 this.isGuessNumberError = true;
-                return
             }
-            guessNumberError.textContent = "";
-            this.isGuessNumberError = false;
         })
 
         // once there are no errors in the input, the guess can be compared to the number combination
@@ -269,7 +272,12 @@ export default {
         if(endType == "won") {
             this.gameOverBanner = `Congratulations! You have guessed the correct combination of ${combination}`;
             this.timeOfGame = `It look you ${timeToEnd} to win the game!`;
-            this.triesToWin = `It took you ${10 - this.newGameProp.gameGuessesRemaining} tries.`
+            const triesToWin = 10 - this.newGameProp.gameGuessesRemaining;
+            if(triesToWin == 1) {
+                this.triesToWin = `It took you ${triesToWin} try.`;
+            } else {
+                this.triesToWin = `It took you ${triesToWin} tries.`;
+            }
         } else {
             this.gameOverBanner = `You have run out of guesses. The correct combination was ${combination}`;
             this.timeOfGame = `You played the game for ${timeToEnd}`;
@@ -294,7 +302,7 @@ export default {
         display: grid; 
         grid-auto-columns: 1fr; 
         grid-template-columns: 0.8fr 1.4fr 0.8fr; 
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+        grid-template-rows: .5fr .7fr 1fr 1fr 1fr; 
         gap: 2% 2%; 
         height: 100%;
         width: 100%;
@@ -319,6 +327,7 @@ export default {
         grid-area: 2 / 2 / 4 / 3; 
         padding-top: 10%;
         padding-bottom: 5%;
+        margin-bottom: 5%;
         padding-left: 5%;
         height: fit-content;
         border-radius: 25px;
@@ -332,6 +341,10 @@ export default {
         padding-bottom: 5%;
         border-radius: 25px;
         border: 2px solid teal;
+
+        max-height: 450px;
+        overflow: auto;
+        display: inline-block;
     }
 
     #viewHistory > h2 {
@@ -366,6 +379,20 @@ export default {
         font-weight: bold;
         display: block;
     }
+
+    .gameEnd {
+        padding-top: 15px;
+    }
+
+    #playAgainButton {
+        height: 60px;
+        width: 50%;
+    }
+
+    /* router-link {
+        text-decoration: none;
+        color: white;
+    } */
 
     label {
         font-weight: bold;

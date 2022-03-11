@@ -2,9 +2,9 @@
 <template>
     <div>
         <div class="difficultySection" v-show="showDifficultySection">
-                <!-- <p>Choose Difficulty Level:</p> <span class="currentChoice"> easy</span> -->
-                <button id="showDifficultyButton" class="btn btn-primary" v-show="showChooseButton" v-on:click="this.showDifficultyClick">Choose Difficulty Level</button>
                 <div class="difficultyDropdown">
+                    <button id="showDifficultyButton" class="btn btn-primary" v-show="showChooseButton" v-on:click="this.showDifficultyClick">Choose Difficulty Level</button>
+
                     <!-- Dropdown form for the user to choose their difficulty type -->
                     <section id="difficultyArea" v-show="showDifficultyChoice">
                         <select id="difficultyChoice" class="form-select">
@@ -37,10 +37,6 @@ var { Timer } = require('easytimer.js');
 
 
 export default {
-    //  mounted: function() {
-    //     this.gameErrorCheck()
-    // },
-
   name: 'gameDifficulty',
   data() {
     return {
@@ -78,12 +74,10 @@ export default {
         let that = this;
         setTimeout(function () {
            if(that.newGame.getErrorMessage() == "") {
-            console.log("in no error");
             that.showGame = true;
             that.showDifficultySection = false;
             that.startTimer();
             } else {
-            console.log("in else");
             that.apiError = that.newGame.getErrorMessage();
             that.showDifficultySection = false;
             that.showApiError = true;
@@ -100,9 +94,6 @@ export default {
   }
 }
 </script>
-
-
-
 
 
 <style scoped>
@@ -124,9 +115,7 @@ export default {
 }
 
 #showDifficultyButton {
-    /* grid-area: 2 / 2 / 4 / 3; */
-    /* padding-left: 25%; */
-    min-width: 60%;
+    min-width: 100%;
     min-height: 100%;
 }
 
@@ -141,13 +130,5 @@ export default {
     min-width: 100%;
     min-height: 100%;
 }
-
-/* .gamePlay { 
-    grid-area: 3 / 2 / 4 / 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 10%;
-} */
 
 </style>

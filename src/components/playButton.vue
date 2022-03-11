@@ -4,12 +4,11 @@
     <router-link to="/gameDifficulty">
       <button class="btn btn-outline-success btn-block btn-lg" id="startPlayButton">Play</button>
     </router-link>
-    <!-- <a class="btn btn-outline-success btn-block btn-lg" id="startPlayButton" type="button"><router-link to="/user">Play</router-link></a> -->
   </section>
   <section class="instructions">
     <h3>Instructions: </h3>
     <ul>
-      <li>The game will select a combination of random numbers between 0-7 based on their choice of game difficulty. 4 numbers on easy, 5 on medium, 6 on hard.</li><br>
+      <li>The game will select a combination of random numbers between 0-7 based on the users choice of game difficulty. 4 numbers on easy, 5 on medium, 6 on hard.</li><br>
       <li>Players will have 10 tries to guess the combination.</li><br>
       <li>Feedback will be given after every guess.</li><br>
       <li>Players will be able to view how many guesses they have remaining, as well as how long they have been playing the game.</li><br>

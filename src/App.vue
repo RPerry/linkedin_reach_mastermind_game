@@ -3,16 +3,13 @@
     <div class="container" id="app">
         <div class="header">
             <header>
-                <h1>Mastermind Game</h1>
+                <router-link to="/"><h1>Mastermind Game</h1></router-link>
                 <h4>By Riyo Perry</h4>
             </header>
         </div>
         <main class="body">
             <router-view></router-view>
         </main>
-        <!-- <footer class="footer">
-            <p>&#169; Riyo Perry 2022</p>
-        </footer> -->
     </div>
   </div>
 </template>
@@ -57,5 +54,9 @@ export default {
 
 .body {
   grid-area: body;
+}
+
+a {
+  color: black;
 }
 </style>

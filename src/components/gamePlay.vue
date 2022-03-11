@@ -10,7 +10,7 @@
                             <div id=section1>
                                     <label for="guess">Enter your guess ({{this.newGameProp.getGameDifficultyLevel()}} numbers between 0-7): </label>
                                     <!-- type=number ensures that the user input will only be numerical -->
-                                    <input id="guess" type="number" name="guess" required>
+                                    <input id="guess" type="number" name="guess">
                             </div> 
                             <br><span id="guessLengthError"></span>
                             <span id="guessNumberError"></span><br>
@@ -91,7 +91,9 @@ export default {
         
         // checking if the guess input value is within the accepted range.
         //  If it is not, an error message will be shown
-        let guessArray = guessString.split();
+        console.log(guessString);
+        let guessArray = guessString.split("");
+        console.log(guessArray);
         guessArray.forEach(int => {
             if(int > 7) {
                 guessNumberError.textContent = "Guess must use numbers between 0-7";
@@ -157,9 +159,13 @@ export default {
 
             // even if multiple feedback types are applicable to a users guess only one of the three feedback should be given, 
             // so only one feedback type is added to the Guess
-            if (correctNumLocations > 0 && correctNumLocations < length ) {
-                guess.guessFeedback = `The player has guessed ${correctNumLocations} correct numbers and its correct location`;
-            } else if (correctNumbers > 0 ){
+            if (correctNumLocations == 1 && correctNumLocations < length ) { 
+                guess.guessFeedback = `The player has guessed ${correctNumLocations} correct number and its correct location`;
+            } else if (correctNumLocations > 1 && correctNumLocations < length ) {
+                guess.guessFeedback = `The player has guessed ${correctNumLocations} correct numbers and their correct locations`;
+            } else if (correctNumbers == 1 ){
+                guess.guessFeedback = `The player has guessed ${correctNumbers} correct number`;
+            } else if (correctNumbers > 1 ){
                 guess.guessFeedback = `The player has guessed ${correctNumbers} correct numbers`;
             } else if (correctNumLocations == length){
                 this.newGameProp.gameGuessesRemaining -= 1;

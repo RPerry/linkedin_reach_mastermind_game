@@ -2,9 +2,9 @@
 <template>
     <div>
         <div class="playArea" v-show="showGame">
-            <section class="guessesRemaining">Guesses Remaining: {{newGameProp.gameGuessesRemaining}}</section>
+            <h3 class="guessesRemaining">Guesses Remaining: {{newGameProp.gameGuessesRemaining}}</h3>
             <button id="viewHistoryButton" class="btn btn-secondary" v-on:click="this.viewHistory">View History</button>
-            <div id="timer">00:00:00</div>
+            <h3 id="timer">00:00:00</h3>
             <section class="guessInput">
                 <form name="guessForm" id="guessForm" @submit.prevent>
                             <div id=section1>
@@ -12,8 +12,8 @@
                                     <!-- type=number ensures that the user input will only be numerical -->
                                     <input id="guess" type="number" name="guess" required>
                             </div> 
-                            <span id="guessLengthError"></span><br>
-                            <span id="guessNumberError"></span>
+                            <br><span id="guessLengthError"></span>
+                            <span id="guessNumberError"></span><br>
                             <button id="guessSubmit" class="btn btn-primary" v-on:click="this.guessSubmit">Guess</button>
                 </form>
             </section>
@@ -273,7 +273,72 @@ export default {
 
 
 <style scoped>
-    /* #playAgainButton {
-        color:white;
-    } */
+    .playArea {
+        display: grid; 
+        grid-auto-columns: 1fr; 
+        grid-template-columns: 0.8fr 1.4fr 0.8fr; 
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+        gap: 2% 2%; 
+        height: 100%;
+        width: 100%;
+        font-family: 'M PLUS 2', sans-serif;
+        font-family: 'Montserrat', sans-serif;
+        font-family: 'Shippori Antique', sans-serif;
+    }
+
+    .guessesRemaining { 
+        grid-area: 1 / 1 / 2 / 2; 
+        text-decoration: underline;
+    }
+
+    #timer { 
+        grid-area: 1 / 3 / 2 / 4; 
+        float: right;
+        padding-right: 40%;
+        text-decoration: underline;
+    }
+
+    .guessInput { 
+        grid-area: 2 / 2 / 4 / 3; 
+        padding-top: 10%;
+    }
+
+    #viewHistory { 
+        grid-area: 3 / 1 / 6 / 2; 
+        padding-top: 20%;
+    }
+
+    #viewHistory > h2 {
+        text-decoration: underline;
+    }
+
+    #viewFeedback { 
+        grid-area: 4 / 2 / 6 / 3; 
+        padding-top: 5%;
+    }
+
+    #viewHistoryButton { 
+        grid-area: 2 / 1 / 3 / 2; 
+        height: 60px;
+        width: 150px;
+    }
+
+    #guessLengthError {
+        color: red;
+        font-weight: bold;
+        display: block;
+    }
+
+    #guessNumberError {
+        color: red;
+        font-weight: bold;
+        display: block;
+    }
+
+    label {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    
 </style>

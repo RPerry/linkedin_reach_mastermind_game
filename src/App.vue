@@ -41,6 +41,9 @@ export default {
     ". . ."; 
   width: 98vw;
   height: 98vh;
+  font-family: 'M PLUS 2', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Shippori Antique', sans-serif;
 }
 
 .header {

@@ -1,9 +1,9 @@
 <template>
 <div class="playButtonContainer">
   <section class="playButton">
-    <button class="btn btn-outline-success btn-block btn-lg" id="startPlayButton">
-      <router-link to="/startGame">Play</router-link>
-    </button>
+    <router-link to="/startGame">
+      <button class="btn btn-outline-success btn-block btn-lg" id="startPlayButton">Play</button>
+    </router-link>
     <!-- <a class="btn btn-outline-success btn-block btn-lg" id="startPlayButton" type="button"><router-link to="/user">Play</router-link></a> -->
   </section>
   <section class="instructions">
@@ -47,15 +47,9 @@ a {
     ". . playButton . ."
     ". instructions instructions instructions .";
   height: 100%;
-  /* width: 98vw;
-  /* display: grid;
-  grid-template-columns: 35.5% 14.5% 40% 50%;
-  grid-template-rows: 14.9% 23.1% 30% 8% 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  width: 98vw;
-  height: 70vh;
-  margin-top: 5%; */
+  font-family: 'M PLUS 2', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Shippori Antique', sans-serif;
 }
 
 .playButton { 
@@ -63,8 +57,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* height:200px;
-  width:400px; */
+  margin-left: 15%;
 }
 
 .instructions { 

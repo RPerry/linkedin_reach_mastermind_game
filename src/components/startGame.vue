@@ -15,6 +15,7 @@
                             <option value="medium">Medium</option>
                             <option value="hard">Hard</option>
                         </select>
+                        <br>
                         <button id="startGame" class="btn btn-info" v-on:click="this.startGame">Start</button>
                     </section>
                 </div>
@@ -77,5 +78,39 @@ export default {
 
 
 <style scoped>
+
+.difficultySection {
+    display: grid; 
+    grid-auto-columns: 1fr; 
+    grid-template-columns: 0.4fr 2.2fr 0.4fr; 
+    grid-template-rows: 0.6fr 0.1fr 1.7fr 0.7fr; 
+    gap: 2% 2%; 
+    height: 100%;
+    padding: 0%;
+    font-family: 'M PLUS 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Shippori Antique', sans-serif;
+}
+
+#showDifficultyButton {
+    /* grid-area: 2 / 2 / 4 / 3; */
+    /* padding-left: 25%; */
+}
+
+.difficultyDropdown { 
+    grid-area: 3 / 2 / 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10%;
+}
+
+/* .gamePlay { 
+    grid-area: 3 / 2 / 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10%;
+} */
 
 </style>

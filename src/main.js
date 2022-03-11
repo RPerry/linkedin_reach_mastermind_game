@@ -3,6 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router';
 import playButton from './components/playButton.vue'
 import user from './components/user.vue'
+import gamePlay from './components/gamePlay.vue'
 
 
 Vue.config.productionTip = false
@@ -17,6 +18,10 @@ const routes = [
   {
     path: '/user',
     component: user
+  },
+  {
+    path: '/gameplay',
+    component: gamePlay
   }
 ];
 

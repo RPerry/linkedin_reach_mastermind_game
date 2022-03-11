@@ -1,10 +1,10 @@
 
 <template>
     <div>
-        <section class="guessesRemaining">Guesses Remaining: {{this.guessesRemaining}}</section>
+        <section class="guessesRemaining">Guesses Remaining: {{newGameProp.gameGuessesRemaining}}</section>
         <button id="viewHistoryButton" v-on:click="this.viewHistory">View History</button>
         <section class="guessInput">
-            <form name="guessForm" id="guessForm">
+            <form name="guessForm" id="guessForm" @submit.prevent>
                         <div id=section1>
                                 <label for="guess">Enter your guess (4 numbers between 0-7): </label>
                                 <input id="guess" type="number" name="guess" required>
@@ -29,16 +29,20 @@ import Guess from "/classes/guessClass.js";
 // import Game from "/classes/gameClass.js";
 
 export default {
-     mounted: function() {
-        // let testGame = new Game(1, "", 10, "test");
-        // testGame.newGameCombination();
+    props: ['newGameProp'],
+    created() {
+        // let testGame = new Game(1, "", "test");
+        this.newGameProp.newGameCombination();
+        // console.log(testGame.getGameCombination());
+        console.log(this.newGameProp);
     },
 
   name: 'gamePlay',
   data() {
     return {
-        guessesRemaining: this.testGame.getGameGuessesRemaining,
-        numberCombination: this.testGame.getGameCombination,
+        // guessesRemaining: this.testGame.getGameGuessesRemaining(),
+        // guessesRemaining: 10,
+        // numberCombination: this.testGame.getGameCombination,
         guessNumber: 1,
         allGameGuesses: [],
         showHistory: false,
@@ -47,23 +51,37 @@ export default {
   },
   methods: {
     guessSubmit: function() {
-        let guessCombination = document.getElementById("guess").value;
+        let guessString = document.getElementById("guess").value;
+        let guessCombination = guessString.split("");
+        let numberCombination = this.newGameProp.getGameCombination();
+        console.log("inputted guess");
+        console.log(guessCombination);
+
+        console.log('number combo');
+        console.log(numberCombination);
         let guess = new Guess(this.guessNumber, guessCombination, "", "test");
         let correctNumLocations = 0;
         let correctNumbers = 0;
 
-        // checking guess against the number combination and deciding feedback
+        console.log(typeof numberCombination);
+        console.log(typeof guessCombination);
 
+        // checking guess against the number combination and deciding feedback
         for (var i = 0; i <= 3; i++) {
             // checking  if number and location is correct
-            if (this.numberCombination[i] == guessCombination[i]) {
+            // If so, the value of correctNumLocations goes up by 1 for every correct number in the correct location/index
+            if (numberCombination[i] == guessCombination[i]) {
                 correctNumLocations += 1;
             }
         }
+        
 
+        // FIX - if there is a correct number multiple times in a guess, 
+        // it results in feedback saying the player has guessed multiple  correct numbers. Rather than 1
         if(correctNumLocations == 0) {
             // checking if any  of the guess numbers match with any of the number combination numbers
-             this.numberCombination.forEach(cNum => {
+            // If so, the value of correctNumbers goes up by 1 for every correct number in any location/index
+             numberCombination.forEach(cNum => {
                 guessCombination.forEach(gNum => {
                     if(cNum == gNum) {
                         correctNumbers += 1;
@@ -74,18 +92,20 @@ export default {
 
         // feedback is added to the Guess
         if (correctNumLocations > 0 ) {
-            guess.guessFeedback = `The player had guessed ${correctNumLocations} correct numbers and its correct location`;
+            guess.guessFeedback = `The player has guessed ${correctNumLocations} correct numbers and its correct location`;
         } else if (correctNumbers > 0 ){
             guess.guessFeedback = `The player has guessed ${correctNumbers} correct numbers`;
         } else {
             guess.guessFeedback = "The player’s guess was incorrect";
         }
 
+        console.log(guess.guessFeedback);
+
         // the guess is added to the array of guesses for the game so that the user can view their game history
         this.allGameGuesses.push(guess);
         this.guessNumber++;
         // the number of guesses remaining is lowered
-        this.testGame.gameGuessesRemaining -= 1;
+        this.newGameProp.gameGuessesRemaining -= 1;
 
         // Feedback is shown for guess is displayed to user
         this.viewFeedback();
@@ -93,6 +113,9 @@ export default {
         // correct number and location variable and currect number variable is reset to 0 for next guess
         correctNumLocations = 0;
         correctNumbers = 0;
+
+        // clearing guess input field
+        document.getElementById("guess").value = "";
     },
 
     viewFeedback: function() {

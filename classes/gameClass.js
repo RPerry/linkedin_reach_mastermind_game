@@ -4,9 +4,9 @@ export default class Game {
     gameGuessesRemaining
     gameUsername
 
-    constructor(gaNumber, gaCombination, gaUsername) {
+    constructor(gaNumber, gaUsername) {
         this.gameNumber = gaNumber;
-        this.gameCombination = gaCombination;
+        this.gameCombination = null;
         this.gameGuessesRemaining = 10;
         this.gameUsername = gaUsername;
     }
@@ -40,8 +40,13 @@ export default class Game {
     }
 
     storeGameCombination(combination) {
-        this.gameCombination = combination;
-        console.log(typeof this.gameCombination);
+        // using regex, I'm splitting the number combination from the random num api on the new lines and storing in an array
+        const numArray = combination.split(/\r?\n/);
+        // because the number combination string ended on a newline, it gets included as the last item in the array,
+        // so I am removing it with .pop()
+        numArray.pop();
+        this.gameCombination = numArray;
+        console.log(this.gameCombination);
     }
 
 

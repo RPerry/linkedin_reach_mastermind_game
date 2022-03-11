@@ -1,6 +1,6 @@
 export default class User {
     userName
-    guessNumber
+    // guessNumber
 
     constructor(uName) {
         this.userName = uName;
@@ -10,9 +10,9 @@ export default class User {
         return this.userName;
     }
 
-    getGuessNumber() {
-        return this.guessNumber;
-    }
+    // getGuessNumber() {
+    //     return this.guessNumber;
+    // }
 
     // submitGuess(guess){
         // save guess

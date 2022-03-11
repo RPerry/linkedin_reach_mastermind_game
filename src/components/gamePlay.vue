@@ -1,26 +1,33 @@
 
 <template>
     <div>
-        <section class="guessesRemaining">Guesses Remaining: {{newGameProp.gameGuessesRemaining}}</section>
-        <button id="viewHistoryButton" v-on:click="this.viewHistory">View History</button>
-        <section class="guessInput">
-            <form name="guessForm" id="guessForm" @submit.prevent>
-                        <div id=section1>
-                                <label for="guess">Enter your guess (4 numbers between 0-7): </label>
-                                <input id="guess" type="number" name="guess" required>
-                        </div> 
-                        <span id="guessError"></span><br>
-                        <button id="guessSubmit" v-on:click="this.guessSubmit">Guess</button>
-            </form>
-        </section>
-        <section id="viewFeedback" v-show="showFeedback">
-            <h3>Feedback</h3>
-            <!-- how to show the current guess feedback? -->
-            <p>{{this.currentFeedback}}</p>
-        </section>
-        <section id="viewHistory" v-show="showHistory">
-            <h2>Game History</h2>
-        </section>
+        <div class="playArea" v-show="showGame">
+            <section class="guessesRemaining">Guesses Remaining: {{newGameProp.gameGuessesRemaining}}</section>
+            <button id="viewHistoryButton" v-on:click="this.viewHistory">View History</button>
+            <section class="guessInput">
+                <form name="guessForm" id="guessForm" @submit.prevent>
+                            <div id=section1>
+                                    <label for="guess">Enter your guess (4 numbers between 0-7): </label>
+                                    <input id="guess" type="number" name="guess" required>
+                            </div> 
+                            <span id="guessError"></span><br>
+                            <button id="guessSubmit" v-on:click="this.guessSubmit">Guess</button>
+                </form>
+            </section>
+            <section id="viewFeedback" v-show="showFeedback">
+                <h3>Feedback</h3>
+                <!-- how to show the current guess feedback? -->
+                <p>{{this.currentFeedback}}</p>
+            </section>
+            <section id="viewHistory" v-show="showHistory">
+                <h2>Game History</h2>
+                <div class="allHistory"></div>
+            </section>
+        </div>
+        <div class="gameEnd" v-show="showEndGame">
+            <h2>{{this.gameOverBanner}}</h2>
+            <button>Play Again</button>
+        </div>
     </div>
 </template>
 
@@ -53,7 +60,9 @@ export default {
         allGameGuesses: [],
         showHistory: false,
         showFeedback: false,
-        currentFeedback: ""
+        currentFeedback: "",
+        showGame: true,
+        gameOverBanner: ""
     };
   },
   methods: {
@@ -103,7 +112,7 @@ export default {
         } else if (correctNumbers > 0 ){
             guess.guessFeedback = `The player has guessed ${correctNumbers} correct numbers`;
         } else if (correctNumLocations == 4){
-            guess.guessFeedback = `Congratulations! You have guessed the correct combination of ${guessCombination}`;
+            this.endGame("won", numberCombination);
         } else {
             guess.guessFeedback = "The player’s guess was incorrect";
         }
@@ -133,26 +142,64 @@ export default {
     },
 
     viewHistory: function() {
-        this.showHistory = !this.showHistory;
+        // removing duplicate elements in case the view history button clicked multiple times
+        const history = document.querySelectorAll('.historyGuess');
+        history.forEach(elem => {
+            elem.remove();
+        });
 
-        // this.ALLHISTORYANDFEEDBACK is the content of the history and feedback dropdown. Implement!
-        document.getElementById("viewHistory").innerHTML = this.ALLHISTORYANDFEEDBACK;
+        if(this.allGameGuesses.length > 0) {
+            // if there is guess history to display 
+            // iterating through all of the guesses and creating a div to display each guess and feedback and 
+            // adding them to the existing all history html class
+            for (let i = 0; i < this.allGameGuesses.length; i++) {
+                const historySection = document.createElement("div");
+                historySection.className = "historyGuess";
+
+                const sectionContents = 
+                `
+                <h4 class="guess">Guess #${this.allGameGuesses[i].getGuessNumber()}: ${this.allGameGuesses[i].getGuessCombination()}</h4>
+                <p class="feedback">Feedback: ${this.allGameGuesses[i].getGuessFeedback()}</p>
+                `;
+
+                historySection.innerHTML = sectionContents;
+                const allHistory = document.getElementsByClassName("allHistory")[0];
+                allHistory.appendChild(historySection);
+            }
+        } else {
+            // if there is no guess history to display
+            const historySection = document.createElement("div");
+            historySection.className = "historyGuess";
+            const sectionContents = `<h4 class="noHistory">No History to Display</h4>`;
+            historySection.innerHTML = sectionContents;
+            const allHistory = document.getElementsByClassName("allHistory")[0];
+            allHistory.appendChild(historySection);
+        }
+
+        this.showHistory = !this.showHistory;
+        // changes the button text depending on whether the history is currently being displayed
         if (this.showHistory) {
         document.getElementById("viewHistoryButton").innerHTML = "Hide History";
         } else {
         document.getElementById("viewHistoryButton").innerHTML = "Show History";
         }
-
-        // ITERATE THROUGH ALL GUESSES IN ALLGAMEGUESSES ARRAY AND CREATE DIVS FOR EACH ONE THAT CONTAIN THE NUMBER GUESS 
-        // AND FEEDBACK FROM EACH GUESS
-
     },
 
-    endGame: function(endType) {
+    endGame: function(endType, combination) {
+        if(endType == "won") {
+            this.gameOverBanner = `Congratulations! You have guessed the correct combination of ${combination}`;
+            // <p>it took you ${10-gameGuessesRemaining} tries.</p>
+        } else {
+            this.gameOverBanner = `You have ran out of guesses. The correct combination was ${combination}`;
+        }
+        this.showGame = false;
+        this.showEndGame = true;
         // IMPLEMENT GAME ENDING ONCE GUESSES ARE COMPLETE
         // ALSO IMPLEMENT A GAME END WHERE USER HAS CORRECTLY GUESSED
         // IF ENDTYPE IS GUESSED VS RANOUTOFGUESSES, CHANGE DISPLAY
         // ADD PLAY AGAIN BUTTON
+        // - end game by clearing all counters and history array
+        // - start new game by creating a new game instance
     }
 
   },

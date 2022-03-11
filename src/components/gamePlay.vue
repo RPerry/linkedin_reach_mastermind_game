@@ -3,7 +3,7 @@
     <div>
         <div class="playArea" v-show="showGame">
             <section class="guessesRemaining">Guesses Remaining: {{newGameProp.gameGuessesRemaining}}</section>
-            <button id="viewHistoryButton" v-on:click="this.viewHistory">View History</button>
+            <button id="viewHistoryButton" class="btn btn-secondary" v-on:click="this.viewHistory">View History</button>
             <div id="timer">00:00:00</div>
             <section class="guessInput">
                 <form name="guessForm" id="guessForm" @submit.prevent>
@@ -14,7 +14,7 @@
                             </div> 
                             <span id="guessLengthError"></span><br>
                             <span id="guessNumberError"></span>
-                            <button id="guessSubmit" v-on:click="this.guessSubmit">Guess</button>
+                            <button id="guessSubmit" class="btn btn-primary" v-on:click="this.guessSubmit">Guess</button>
                 </form>
             </section>
             <section id="viewFeedback" v-show="showFeedback">
@@ -31,7 +31,7 @@
             <h2>{{this.gameOverBanner}}</h2>
             <h4>{{this.timeOfGame}}</h4>
             <p>{{this.triesToWin}}</p>
-            <button type="button"><router-link to="/">Play Again</router-link></button>
+            <button type="button" class="btn btn-outline-primary" id="playAgainButton"><router-link to="/">Play Again</router-link></button>
         </div>
     </div>
 </template>
@@ -273,5 +273,7 @@ export default {
 
 
 <style scoped>
-
+    /* #playAgainButton {
+        color:white;
+    } */
 </style>

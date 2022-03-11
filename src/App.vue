@@ -27,4 +27,30 @@ export default {
 </script>
 
 <style>
+.container {
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 0.8fr 1.5fr 0.8fr; 
+  grid-template-rows: .5% 16% 40% 30% 5%; 
+  gap: 1% 1%; 
+  grid-template-areas: 
+    ". . ."
+    "header header header"
+    "body body body"
+    "body body body"
+    ". . ."; 
+  width: 98vw;
+  height: 98vh;
+}
+
+.header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.body {
+  grid-area: body;
+}
 </style>

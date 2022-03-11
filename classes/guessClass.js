@@ -2,13 +2,11 @@ export default class Guess {
     guessNumber
     guessCombination
     guessFeedback
-    guessUsername
 
-    constructor(gNumber, gCombination, gFeedback, gUsername) {
+    constructor(gNumber, gCombination, gFeedback) {
         this.guessNumber = gNumber;
         this.guessCombination = gCombination;
         this.guessFeedback = gFeedback;
-        this.guessUsername = gUsername;
     }
 
     getGuessNumber() {
@@ -21,10 +19,6 @@ export default class Guess {
 
     getGuessFeedback() {
         return this.guessFeedback;
-    }
-
-    getGuessUsername() {
-        return this.guessUsername;
     }
 
 }

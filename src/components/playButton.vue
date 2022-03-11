@@ -1,10 +1,18 @@
 <template>
 <div class="playButtonContainer">
   <section class="playButton">
-    <button><router-link to="/user">Play</router-link></button>
+    <button class="btn btn-outline-success btn-block btn-lg" id="startPlayButton">
+      <router-link to="/startGame">Play</router-link>
+    </button>
+    <!-- <a class="btn btn-outline-success btn-block btn-lg" id="startPlayButton" type="button"><router-link to="/user">Play</router-link></a> -->
   </section>
   <section class="instructions">
-    WRITE game instructions HERE!!!
+    <h3>Instructions:</h3>
+    <ul>
+      <li>The game will select a combination of random numbers between 0-7 based on difficulty. 4 numbers on easy, 5 on medium, 6 on hard.</li>
+      <li>You will have 10 tries to guess the combination.</li>
+      <li>You will be given feedback after every guess.</li>
+    </ul>
   </section>
 </div> 
 </template>
@@ -20,7 +28,26 @@ export default {
 </script>
 
 <style scoped>
+
+a {
+  text-decoration: none;
+  height:200px;
+  width:400px;
+  margin-top: 50px;
+}
+
 .playButtonContainer {
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 0.9fr 0.5fr 2.3fr 0.5fr .8fr; 
+  grid-template-rows: 0.1fr 1fr 1fr; 
+  gap: 8% 1%; 
+  grid-template-areas: 
+    ". . . . ."
+    ". . playButton . ."
+    ". instructions instructions instructions .";
+  height: 100%;
+  /* width: 98vw;
   /* display: grid;
   grid-template-columns: 35.5% 14.5% 40% 50%;
   grid-template-rows: 14.9% 23.1% 30% 8% 1fr;
@@ -32,14 +59,20 @@ export default {
 }
 
 .playButton { 
-  /* grid-area: 1 / 3 / 3 / 4;
-  font-size:6vw;
-  position: absolute;
-  margin-top: 6.5%;
-  margin-left: 16.8%; */
-
+  grid-area: playButton;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height:200px;
+  width:400px; */
 }
 
+.instructions { 
+  grid-area: instructions; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media screen and (max-width: 800px) {
   /* .homeName{
     margin-top: 40%

@@ -2,20 +2,12 @@
 <template>
     <div>
         <div class="difficultySection" v-show="showDifficultySection">
-                <p>Current Difficulty Level: Easy</p>
+                <!-- <p>Choose Difficulty Level:</p> <span class="currentChoice"> easy</span> -->
+                <button id="showDifficultyButton" class="btn btn-primary" v-show="showChooseButton" v-on:click="this.showDifficultyClick">Choose Difficulty Level</button>
                 <div class="difficultyDropdown">
-                    <button id="showDifficultyButton" v-on:click="this.showDifficultyClick">Change</button>
-                    <!-- Dropdown for the user to choose their difficulty type -->
-                    <!-- <form name="newUserForm" id="newUserForm" v-show="showDifficultyChoice" @submit.prevent>
-                        <div id=section1>
-                                <label for="newUser">Create a Username (required): </label>
-                                <input id="newUser" type="text" name="newUser" required>
-                        </div> 
-                        <span id="newUserError"></span><br>
-                        <button id="newUserSubmit" v-on:click="this.newUserSubmit">Submit</button>
-                    </form> -->
+                    <!-- Dropdown form for the user to choose their difficulty type -->
                     <section id="difficultyArea" v-show="showDifficultyChoice">
-                        <select id="difficultyChoice">
+                        <select id="difficultyChoice" class="form-select">
                             <!-- In order to abstract away what each difficulty means for the length of the combination, 
                             I am making the values of the choices "easy/medium/hard" and deciding the combiniation length 
                             in the Game class for easier refactoring  -->
@@ -23,7 +15,7 @@
                             <option value="medium">Medium</option>
                             <option value="hard">Hard</option>
                         </select>
-                        <button id="startGame" v-on:click="this.startGame">Start</button>
+                        <button id="startGame" class="btn btn-info" v-on:click="this.startGame">Start</button>
                     </section>
                 </div>
         </div>
@@ -44,12 +36,13 @@ export default {
     //  mounted: function() {
     // },
 
-  name: 'user',
+  name: 'startGame',
   data() {
     return {
       showDifficultyChoice: false,
       showGame: false,
       showDifficultySection: true,
+      showChooseButton: true,
       newGame: new Game(),
       timer: new Timer(),
     };
@@ -58,6 +51,7 @@ export default {
     
       // when the new user button is clicked, the form to enter a new username is shown
     showDifficultyClick: function() {
+        this.showChooseButton = false;
         this.showDifficultyChoice = true;
     },
 

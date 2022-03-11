@@ -146,8 +146,6 @@ export default {
                     correctNumLocationIndexes.push(i);
                 }
             }
-            console.log("correct num and location for first feedback");
-            console.log(correctNumLocations);
 
             // When using a nested forEach loop to check if any of the number combination numbers
             // were in the guess numbers, it resulted in feedback saying the player has guessed multiple 
@@ -162,14 +160,11 @@ export default {
 
             let numOfNumbers = {};
 
-            console.log(correctNumLocationIndexes);
 
             // if the current index in the guess array is included in the array of indexes that were already counted for the correct
             // number and location feedback, skip the index and do not include it in the object
             for (var n = 0; n <= (length - 1); n++) {
                 if(!correctNumLocationIndexes.includes(n)) {
-                    console.log("index added to object");
-                    console.log(n);
                     if(numOfNumbers[numberCombination[n]]) {
                         numOfNumbers[numberCombination[n]] +=1;
                     } else {
@@ -186,9 +181,6 @@ export default {
                     }
                 }
             }
-            
-            console.log("correct numbers for second feedback");
-            console.log(correctNumbers);
 
             // adding multiple feedback to guess.guessFeedback if necessary based on guess
 
@@ -238,7 +230,6 @@ export default {
             // Feedback for guess is displayed to user
             this.currentFeedback = guess.guessFeedback;
             this.viewFeedback();
-            console.log(this.currentFeedback);
         }    
     },
 
@@ -264,8 +255,7 @@ export default {
                 const historySection = document.createElement("div");
                 historySection.className = "historyGuess";
                 let feedbackArray = this.allGameGuesses[i].getGuessFeedback();
-                console.log('feedback array');
-                console.log(feedbackArray);
+              
                 let sectionContents = 
                 `
                 <h4 class="guess">Guess #${this.allGameGuesses[i].getGuessNumber()}: ${this.allGameGuesses[i].getGuessCombination()}</h4>

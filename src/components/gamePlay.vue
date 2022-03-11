@@ -73,7 +73,6 @@ export default {
   },
   methods: {
     guessSubmit: function() {
-        console.log(this.timerProp.getTimeValues().toString());
         const guessLengthError = document.getElementById("guessLengthError")
         const guessNumberError = document.getElementById("guessNumberError")
 
@@ -89,22 +88,26 @@ export default {
             guessLengthError.textContent = "";
             this.isGuessLengthError = false;
         }
-
-        // regex to check that the numbers inputted are between 0-7
-        const numberRegex = /[0-7]/;
-        if(numberRegex.test(guessString) != true) {
-            guessNumberError.textContent = "Guess must use numbers between 0-7";
-            this.isGuessNumberError = true;
-        } else {
+        
+        // checking if the guess input value is within the accepted range.
+        //  If it is not, an error message will be shown
+        let guessArray = guessString.split();
+        guessArray.forEach(int => {
+            if(int > 7) {
+                guessNumberError.textContent = "Guess must use numbers between 0-7";
+                this.isGuessNumberError = true;
+                return
+            }
             guessNumberError.textContent = "";
             this.isGuessNumberError = false;
-        }
+        })
 
         // once there are no errors in the input, the guess can be compared to the number combination
         if(!this.isGuessLengthError && !this.isGuessNumberError) {
 
             let guessCombination = guessString.split("");
             let numberCombination = this.newGameProp.getGameCombination();
+            console.log(this.newGameProp.getGameCombination());
 
             console.log('number combo');
             console.log(numberCombination);

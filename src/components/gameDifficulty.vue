@@ -81,14 +81,18 @@ export default {
             console.log("in no error");
             that.showGame = true;
             that.showDifficultySection = false;
-            that.timer.start();
+            that.startTimer();
             } else {
             console.log("in else");
             that.apiError = that.newGame.getErrorMessage();
             that.showDifficultySection = false;
             that.showApiError = true;
         }
-        }, 700);
+        }, 900);
+    },
+
+    startTimer: function() {
+        this.timer.start();
     }
   },
   components: {

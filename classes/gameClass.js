@@ -29,13 +29,14 @@ export default class Game {
 
     newGameCombination() {
         // sending a get request to random.org api to get game combination
-        // integers changed to vintegers to test status code
-        fetch(`https://www.random.org/vintegers/?num=${this.gameDifficultyLevel}&min=0&max=7&col=1&base=10&format=plain&rnd=new`, {
+        fetch(`https://www.random.org/integers/?num=${this.gameDifficultyLevel}&min=0&max=7&col=1&base=10&format=plain&rnd=new`, {
             method: 'GET'
         })
+        // .then((response) => this.checkStatus(response))
+        // .then((response) => this.checkStatus(response.text(), response.status))
+
         .then((response) => this.checkStatus(response))
-        // .then((response) => response.text())
-        // .then((text) => console.log(text))
+        .then((data) => this.storeGameCombination(data))
         // .catch(e => {
         //     console.log(e);
         // })
@@ -43,13 +44,16 @@ export default class Game {
     }
 
     storeGameCombination(combination) {
-        // using regex, I'm splitting the number combination from the random num api on the new lines and storing in an array
-        const numArray = combination.split(/\r?\n/);
-        // because the number combination string ended on a newline, it gets included as the last item in the array,
-        // so I am removing it with .pop()
-        numArray.pop();
-        this.gameCombination = numArray;
-        console.log(this.gameCombination);
+        // if the random.org api returned status 200 and there are no error messages
+        if (this.apiErrorMessage  == "") {
+            // using regex, I'm splitting the number combination from the random num api on the new lines and storing in an array
+            const numArray = combination.split(/\r?\n/);
+            // because the number combination string ended on a newline, it gets included as the last item in the array,
+            // so I am removing it with .pop()
+            numArray.pop();
+            this.gameCombination = numArray;
+            console.log(this.gameCombination);
+        }
     }
 
     changeDifficultyLevel(level) {
@@ -72,8 +76,12 @@ export default class Game {
         if (getResponse.status != 200) {
             this.apiErrorMessage = `Sorry, there seems to be an error loading the number combination. Status code: ${getResponse.status}`;
         } else {
-            this.storeGameCombination(getResponse.text());
+            // console.log(responseText);
+            // this.storeGameCombination(responseText);
+            return getResponse.text()
         }
     }
+
+   
 
 }

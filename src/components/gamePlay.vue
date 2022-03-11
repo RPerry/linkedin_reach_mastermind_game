@@ -16,10 +16,10 @@
         <section id="viewFeedback" v-show="showFeedback">
             <h3>Feedback</h3>
             <!-- how to show the current guess feedback? -->
-            <p>{{this.feedback}}</p>
+            <p>{{this.currentFeedback}}</p>
         </section>
         <section id="viewHistory" v-show="showHistory">
-
+            <h2>Game History</h2>
         </section>
     </div>
 </template>
@@ -37,6 +37,12 @@ export default {
         console.log(this.newGameProp);
     },
 
+    mounted() {
+        if(this.newGameProp.gameGuessesRemaining == 0) {
+            this.endGame();
+        }
+    },
+
   name: 'gamePlay',
   data() {
     return {
@@ -46,7 +52,8 @@ export default {
         guessNumber: 1,
         allGameGuesses: [],
         showHistory: false,
-        showFeedback: false
+        showFeedback: false,
+        currentFeedback: ""
     };
   },
   methods: {
@@ -76,7 +83,7 @@ export default {
         }
         
 
-        // FIX - if there is a correct number multiple times in a guess, 
+        // FIX!!!!!! - if there is a correct number multiple times in a guess, 
         // it results in feedback saying the player has guessed multiple  correct numbers. Rather than 1
         if(correctNumLocations == 0) {
             // checking if any  of the guess numbers match with any of the number combination numbers
@@ -91,10 +98,12 @@ export default {
         }
 
         // feedback is added to the Guess
-        if (correctNumLocations > 0 ) {
+        if (correctNumLocations > 0 && correctNumLocations < 4 ) {
             guess.guessFeedback = `The player has guessed ${correctNumLocations} correct numbers and its correct location`;
         } else if (correctNumbers > 0 ){
             guess.guessFeedback = `The player has guessed ${correctNumbers} correct numbers`;
+        } else if (correctNumLocations == 4){
+            guess.guessFeedback = `Congratulations! You have guessed the correct combination of ${guessCombination}`;
         } else {
             guess.guessFeedback = "The player’s guess was incorrect";
         }
@@ -107,7 +116,8 @@ export default {
         // the number of guesses remaining is lowered
         this.newGameProp.gameGuessesRemaining -= 1;
 
-        // Feedback is shown for guess is displayed to user
+        // Feedback for guess is displayed to user
+        this.currentFeedback = guess.guessFeedback;
         this.viewFeedback();
 
         // correct number and location variable and currect number variable is reset to 0 for next guess
@@ -132,6 +142,17 @@ export default {
         } else {
         document.getElementById("viewHistoryButton").innerHTML = "Show History";
         }
+
+        // ITERATE THROUGH ALL GUESSES IN ALLGAMEGUESSES ARRAY AND CREATE DIVS FOR EACH ONE THAT CONTAIN THE NUMBER GUESS 
+        // AND FEEDBACK FROM EACH GUESS
+
+    },
+
+    endGame: function(endType) {
+        // IMPLEMENT GAME ENDING ONCE GUESSES ARE COMPLETE
+        // ALSO IMPLEMENT A GAME END WHERE USER HAS CORRECTLY GUESSED
+        // IF ENDTYPE IS GUESSED VS RANOUTOFGUESSES, CHANGE DISPLAY
+        // ADD PLAY AGAIN BUTTON
     }
 
   },

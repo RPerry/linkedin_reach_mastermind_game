@@ -3,6 +3,9 @@
   <section class="playButton">
     <button><router-link to="/user">Play</router-link></button>
   </section>
+  <section class="instructions">
+    WRITE game instructions HERE!!!
+  </section>
 </div> 
 </template>
 

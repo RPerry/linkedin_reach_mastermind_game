@@ -14,10 +14,10 @@ export default class User {
         return this.guessNumber;
     }
 
-    submitGuess(guess){
+    // submitGuess(guess){
         // save guess
         // check if correct
         // return feedback
-    }
+    // }
 
 }
